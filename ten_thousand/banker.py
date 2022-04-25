@@ -1,4 +1,4 @@
-class Banker(self):
+class Banker():
     def shelf(self):
         pass
 #Input to shelf is the amount of points (integer) to add to shelf.
@@ -11,3 +11,6 @@ class Banker(self):
     def clear_shelf():
         pass
 #clear_shelf should remove all unbanked points.
+
+
+
