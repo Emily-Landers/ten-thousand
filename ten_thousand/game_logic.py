@@ -3,7 +3,7 @@ import random
 
 class GameLogic ():
     
-    rolls = []
+
 
     
     def __init__(self, value):
@@ -19,15 +19,15 @@ class GameLogic ():
         return tuple(rolls)
 
     @staticmethod 
-    def calculate_score(rolls=None, score=[]):
+    def calculate_score(rolls, score=[]):
         scores = score
         if 5 in rolls:
             num = rolls.count(5)
-            scores.append(50)
-            return(50 * num)
+            scores.append(50 * num)
+            return (50 * num)
         if 1 in rolls:
             nums = rolls.count(1)
-            scores.append(100)
+            scores.append(100 * nums)
             return(100 * nums)
         # elif len(rolls > 0):
         #return sum(scores)
