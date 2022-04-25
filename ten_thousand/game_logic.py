@@ -1,13 +1,35 @@
-class GameLogic():
+from collections import Counter
+import random
+
+class GameLogic ():
     
-    @staticmethod 
-    def calculate_score():
-        pass
+    rolls = []
+
+    
+    def __init__(self, value):
+        self.value = value
+
 #The input to calculate_score is a tuple of integers that represent a dice roll.
 #The output from calculate_score is an integer representing the roll’s score according to rules of game.
+    @staticmethod     
+    def roll_dice(self):
+        rolls = [random.randint(1, 6) for _ in range(self)]
+        # dice = self.rolls
+        # dice.append(rolls)
+        return tuple(rolls)
+
+    @staticmethod 
+    def calculate_score(rolls=None, score=[]):
+        scores = score
+        if 5 in rolls:
+            num = rolls.count(5)
+            scores.append(50)
+            return(50 * num)
+        if 1 in rolls:
+            nums = rolls.count(1)
+            scores.append(100)
+            return(100 * nums)
+        # elif len(rolls > 0):
+        #return sum(scores)
+        return sum(scores)
     
-    def roll_dice():
-        pass
-#The input to roll_dice is an integer between 1 and 6.
-#The output of roll_dice is a tuple with random values between 1 and 6.
-#The length of tuple must match the argument given to roll_dice method.
