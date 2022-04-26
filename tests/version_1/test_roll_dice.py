@@ -18,7 +18,7 @@ def test_1_dice():
     value = values[0]
     assert 1 <= value <= 6
 
-#@pytest.mark.skip("TODO")
+
 def test_2_dice():
     values = GameLogic.roll_dice(2)
     assert len(values) == 2
