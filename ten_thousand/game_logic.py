@@ -1,10 +1,11 @@
 from collections import Counter
 import random
+from tkinter import Y
 
-class GameLogic ():
+class GameLogic:
     
-    def __init__(self, value):
-        self.value = value
+    #def __init__(self, value):
+        #self.value = value
 
 #The input to calculate_score is a tuple of integers that represent a dice roll.
 #The output from calculate_score is an integer representing the roll’s score according to rules of game.
@@ -68,3 +69,4 @@ class GameLogic ():
             if dice_list.count(5) == 2:
                 score += 100
         return score 
+        
