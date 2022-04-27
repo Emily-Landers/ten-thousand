@@ -1,10 +1,11 @@
 from ten_thousand.game_logic import GameLogic
 from ten_thousand.banker import Banker
-
+import sys
 
 class Game:
     def __init__(self):
-        pass
+        self.banker = Banker()
+        self.scorer = GameLogic()
     
     def play(self, roller=GameLogic.roll_dice):
 
@@ -14,31 +15,50 @@ class Game:
     
         if response == "n":
             print("OK. Maybe another time")
-        else:
-            print("Starting round 1")
-            print("Rolling 6 dice...")
-            # print("*** 4 4 5 2 3 1 ***")
-            print("*** 4 2 6 4 6 5 ***")
-            print("Enter dice to keep, or (q)uit:")
-            response = input("> ")
-            if response == "5":
-                print("You have 50 unbanked points and 5 dice remaining")
-                print("(r)oll again, (b)ank your points or (q)uit:")
+            sys.exit()
+        if response == "y":
+            round_count = 0
+            
+            while True:
+                keep_dice = []
+                dice_count = 6
+                round_count += 1
+                
+                print(f"Starting round {round_count}")
+                print(f"Rolling {dice_count} dice...")
+                
+                roll_result = roller(dice_count)
+                roll_string = self.str_(roll_result)
+                print(f"*** {roll_string} ***")
+                print("Enter dice to keep, or (q)uit:")
+                
                 response = input("> ")
-                if response == "b":
-                    Banker().shelf(50)
-                    print(f"You banked {Banker().shelved} points in round 1")
-                    print("Total score is 50 points")
-                print("Starting round 2")
-            print("Rolling 6 dice...")
-            print("*** 6 4 5 2 3 1 ***")
-            print("Enter dice to keep, or (q)uit:")
-            response = input("> ")
-            if response == "q":
-                Banker().bank()
-                print(f"Thanks for playing. You earned {Banker().balance} points")
-            
-            
+                if response == "q":
+                    print(f"Thanks for playing. You earned {self.banker.balance} points")
+                    break
+                for j in response:
+                    if int(j) in roll_result:
+                        keep_dice.append(int(j))
+                        dice_count += -1
+                    unbanked_points = self.scorer.calculate_score(keep_dice)
+                    shelf_points = self.banker.shelf(unbanked_points)
+                    print(f"You have {self.banker.shelved} unbanked points and {dice_count} dice remaining")
+                    print('(r)oll again, (b)ank your points or (q)uit:') 
+                    r_b_q = input("> ")
+                    if r_b_q == "b":
+                        banked_points = self.banker.bank()
+                        print(f"You banked {banked_points} points in round {round_count}")
+                        print(f"Total score is {self.banker.balance} points")
+                    if r_b_q == "q":
+                        print(f"Thanks for playing. You earned  {self.banker.balance} points")
+                        break
+        else:
+            print ("Please select y or n") 
+                       
+    def str_(self, string):
+        stringify = str(string)
+        final = stringify.replace(",", "").replace("[","").replace("]", "")
+        return final       
 if __name__ == "__main__":
     game = Game()
     game.play()
