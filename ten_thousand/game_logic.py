@@ -1,72 +1,78 @@
 from collections import Counter
 import random
-from tkinter import Y
+
 
 class GameLogic:
-    
-    #def __init__(self, value):
-        #self.value = value
-
-#The input to calculate_score is a tuple of integers that represent a dice roll.
-#The output from calculate_score is an integer representing the roll’s score according to rules of game.
     @staticmethod     
-    def roll_dice(self):
-        rolls = [random.randint(1, 6) for _ in range(self)]
-        # dice = self.rolls
-        # dice.append(rolls)
+    def roll_dice(num=6):
+        rolls = [random.randint(1, 6) for _ in range(num)]
         return tuple(rolls)
 
-    @staticmethod 
-    def calculate_score(dice_list):
+    @staticmethod
+    def calculate_score(dice):
+
+        if len(dice) > 6:
+            raise Exception("no, its not a pomegranate")
+
+        counts = Counter(dice)
+
+        if len(counts) == 6:
+            return 1500
+
+        if len(counts) == 3 and all(val == 2 for val in counts.values()):
+            return 1500
+
         score = 0
-        straight = (1,2,3,4,5,6)
-        checkstraight=[]
-        pairs = 0
 
-        for x in straight:        
-            if straight.count(x) == dice_list.count(x): 
-                checkstraight.append(x)
-                print(checkstraight)
-        if tuple(checkstraight) == straight:        
-            score += 1500
-            return score
+        ones_used = fives_used = False
 
-        for x in range(7):
-            if dice_list.count(x) == 2:
-                pairs += 1
-        if pairs == 3:
-            score += 1500
-            return score
+        for num in range(1, 6 + 1):
 
+            pip_count = counts[num]
 
-        for x in range(2, 7):
-            if dice_list.count(x) == 3:
-                score += 100*x
-            if dice_list.count(x) == 4:
-                score += 200*x 
-            if dice_list.count(x) == 5:
-                score += 200*x+(x*100)
-            if dice_list.count(x) == 6:
-                score += 200*x+(x*200) 
+            if pip_count >= 3:
 
-        if 1 in dice_list:
-            if dice_list.count(1) == 1:
-                score += 100 
-            if dice_list.count(1) == 2:
-                score += 200
-            if dice_list.count(1) == 3:
-                score += 1000  
-            if dice_list.count(1) == 4:
-                score += 2000 
-            if dice_list.count(1) == 5:
-                score += 3000 
-            if dice_list.count(1) == 6:
-                score += 4000 
+                if num == 1:
 
-        if 5 in dice_list:
-            if dice_list.count(5) == 1:
-                score += 50 
-            if dice_list.count(5) == 2:
-                score += 100
-        return score 
+                    ones_used = True
+
+                elif num == 5:
+
+                    fives_used = True
+
+                score += num * 100
+
+                pips_beyond_3 = pip_count - 3
+
+                score += score * pips_beyond_3
+                
+                if num == 1:
+                    score *= 10
+
+        if not ones_used:
+            score += counts.get(1, 0) * 100
+
+        if not fives_used:
+            score += counts.get(5, 0) * 50
+
+        return score
         
+@staticmethod
+def scorers(dice):
+        all_dice = GameLogic.calculate_score(dice)
+            
+        if all_dice == 0:
+                return tuple()
+            
+        scorers = []
+        
+        for i, val in enumerate(dice):
+            sub_roll = dice[:i] + dice[i + 1 :]
+            sub_score = GameLogic.calculate_score(sub_roll)
+
+            if sub_score !=             all_dice:
+                scorers.append(val)
+
+        return tuple(scorers)
+            
+            
