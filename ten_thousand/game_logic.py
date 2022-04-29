@@ -57,8 +57,16 @@ class GameLogic:
 
         return score
         
-@staticmethod
-def scorers(dice):
+    @staticmethod
+    def validate_keepers(roll, keepers):
+        keeper_counter = Counter(keepers)
+        roll_counter = Counter(roll)
+
+        result = keeper_counter - roll_counter
+        return not result
+
+    @staticmethod
+    def scorers(dice):
         all_dice = GameLogic.calculate_score(dice)
             
         if all_dice == 0:
