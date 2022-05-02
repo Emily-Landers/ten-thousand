@@ -1,6 +1,7 @@
 # Python 401d1818
 ## Labs(06-09): Ten Thousand
 ### Authors: 
+Emily Landers and Thomas Basham
 
 ## Lab: 06
 ### Setup
