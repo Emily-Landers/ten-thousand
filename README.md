@@ -74,7 +74,6 @@ When rolling 1 to 6 dice ensure:
 - Research `parametrized tests in PyTest`
 - Research `Behavior Driven Development`
 
-<!--- 
 ## Lab: 07
 Extend Ten Thousand game started in previous class to get the game in playable state.
 
@@ -129,4 +128,3 @@ Add an AI bot to play the game.
   * **NOTE** the code for `BaseBot` class is supplied for reference, but your custom code will be in the overridden `_roll_bank_or_quit` and `_enter_dice` methods.
 * User should be able to see your bot play by executing `bots.py` from terminal.
 * Application should implement features from previous classes
---->
