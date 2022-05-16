@@ -1,18 +1,23 @@
 from collections import Counter
-import random
+from random import randint
 
 
 class GameLogic:
-    @staticmethod     
+    @staticmethod
     def roll_dice(num=6):
-        rolls = [random.randint(1, 6) for _ in range(num)]
-        return tuple(rolls)
+        # version_1
+
+        return tuple([randint(1, 6) for _ in range(num)])
 
     @staticmethod
     def calculate_score(dice):
+        """
+        dice is a tuple of integers that represent the user's selected dice pulled out from current roll
+        """
+        # version_1
 
         if len(dice) > 6:
-            raise Exception("no, its not a pomegranate")
+            raise Exception("Cheating Cheater!")
 
         counts = Counter(dice)
 
@@ -42,10 +47,14 @@ class GameLogic:
 
                 score += num * 100
 
+                # handle 4,5,6 of a kind
                 pips_beyond_3 = pip_count - 3
 
                 score += score * pips_beyond_3
-                
+
+                # bug if 2 threesomes? Let's test it
+
+                # 1s are worth 10x
                 if num == 1:
                     score *= 10
 
@@ -56,29 +65,31 @@ class GameLogic:
             score += counts.get(5, 0) * 50
 
         return score
-        
+
     @staticmethod
     def validate_keepers(roll, keepers):
         keeper_counter = Counter(keepers)
         roll_counter = Counter(roll)
 
         result = keeper_counter - roll_counter
+
         return not result
 
     @staticmethod
-    def scorers(dice):
-        all_dice = GameLogic.calculate_score(dice)
-            
-        if all_dice == 0:
-                return tuple()
-            
+    def get_scorers(dice):
+
+        dice_score = GameLogic.calculate_score(dice)
+
+        if dice_score == 0:
+            return tuple()
+
         scorers = []
-        
+
         for i, val in enumerate(dice):
             sub_roll = dice[:i] + dice[i + 1 :]
             sub_score = GameLogic.calculate_score(sub_roll)
 
-            if sub_score !=             all_dice:
+            if sub_score != dice_score:
                 scorers.append(val)
 
         return tuple(scorers)
